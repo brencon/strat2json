@@ -1,0 +1,33 @@
+{
+  "name": "strat2json",
+  "version": "0.0.1",
+  "description": "Converts Strat-O-Matic print (prt) file data to JSON",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brencon/strat2json.git"
+  },
+  "keywords": [
+    "strat-o-matic",
+    "stratomatic",
+    "som",
+    "print",
+    "prt",
+    "baseball",
+    "data",
+    "json"
+  ],
+  "author": "Brendan Conrad <brconrad@symitar.com> (https://twitter.com/symBrendan)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brencon/strat2json/issues"
+  },
+  "homepage": "https://github.com/brencon/strat2json#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}
