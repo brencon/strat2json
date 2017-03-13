@@ -24,6 +24,7 @@ module.exports = {
         const regExpBracesAndOne = /\[[1]\]/;
         const regExpBracesAndTwo = /\[[2]\]/;
         const regExpBracesAndFour = /\[[4]\]/;
+        const regExpCapitalLetterThenPeriod = /[A-Z]\./;
         _.forEach(lines, function(line) {
             // find each team based on "Primary Player Statistics"
             if (line.indexOf(primaryPlayerStatistics) > 0) {
@@ -55,21 +56,23 @@ module.exports = {
                         // if the line is not [2]
                         if (line.search(regExpBracesAndTwo) === -1) {
                             // then it's a stats line
-                            var statsColumns = line.split(/(\s+)/);
-                            var battingStats = {};
-                            var battingStatsIndex = 0;
-                            _.forEach(statsColumns, function(statColumn) {
-                                if (statColumn.trim() !== '') {
-                                    statColumn = statColumn.replace(regExpBracesAndFour, '');
-                                    battingStats[battingColumns[battingStatsIndex]] = statColumn;
-                                    battingStatsIndex++;
-                                }
-                            });
-                            jsonStats.teams[teamIndex].batters.push(battingStats);
+                            if (line.search(regExpCapitalLetterThenPeriod) === 0) {
+                                // then the line contains a capital letter and a period
+                                var statsColumns = line.split(/(\s+)/);
+                                var battingStats = {};
+                                var battingStatsIndex = 0;
+                                _.forEach(statsColumns, function (statColumn) {
+                                    if (statColumn.trim() !== '') {
+                                        statColumn = statColumn.replace(regExpBracesAndFour, '');
+                                        battingStats[battingColumns[battingStatsIndex]] = statColumn;
+                                        battingStatsIndex++;
+                                    }
+                                });
+                                jsonStats.teams[teamIndex].batters.push(battingStats);
 
-                            // TODO: determine parser location for batting vs. pitching
-                            // TODO: determine how/when to store team totals
-
+                                // TODO: determine parser location for batting vs. pitching
+                                // TODO: determine how/when to store team totals
+                            }
                         }
                     }
                 }
