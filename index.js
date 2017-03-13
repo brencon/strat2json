@@ -23,6 +23,7 @@ module.exports = {
         const primaryPlayerStatistics = 'Primary Player Statistics For';
         const regExpBracesAndOne = /\[[1]\]/;
         const regExpBracesAndTwo = /\[[2]\]/;
+        const regExpBracesAndFour = /\[[4]\]/;
         _.forEach(lines, function(line) {
             // find each team based on "Primary Player Statistics"
             if (line.indexOf(primaryPlayerStatistics) > 0) {
@@ -59,6 +60,7 @@ module.exports = {
                             var battingStatsIndex = 0;
                             _.forEach(statsColumns, function(statColumn) {
                                 if (statColumn.trim() !== '') {
+                                    statColumn = statColumn.replace(regExpBracesAndFour, '');
                                     battingStats[battingColumns[battingStatsIndex]] = statColumn;
                                     battingStatsIndex++;
                                 }

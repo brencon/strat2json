@@ -1,6 +1,7 @@
 'use strict';
 
 var expect = require('chai').expect;
+var _ = require('lodash');
 
 var strat2json = require('../index');
 
@@ -24,5 +25,13 @@ describe('#strat2json', function() {
         var result = strat2json.primaryStats2json(primaryStatsAllTeamsPRT);
         expect(result).to.have.property('teams');
         expect(result.teams).to.have.length.above(0);
+        var tempIndex = 0;
+        _.forEach(result.teams, function(team) {
+            if (tempIndex === 0) {
+                console.log(team.batters);
+                tempIndex++;
+            }
+            expect(team.batters).to.have.length.above(0);
+        });
     })
 });
