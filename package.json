@@ -1,6 +1,6 @@
 {
   "name": "strat2json",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Converts Strat-O-Matic print (prt) file data to JSON",
   "main": "index.js",
   "scripts": {

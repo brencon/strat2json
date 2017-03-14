@@ -17,8 +17,10 @@ module.exports = {
         var lines = primaryStatsPRT.split(/\r?\n/);
         var jsonStats = { "teams": [] };
         var teamLineFound = false;
-        var statsHeaderLineParsed = false;
+        var battingStatsHeaderLineParsed = false;
         var battingColumns = [];
+        var pitchingStatsHeaderLineParsed = false;
+        var pitchingColumns = [];
         var teamIndex = -1;
         const primaryPlayerStatistics = 'Primary Player Statistics For';
         const regExpBracesAndOne = /\[[1]\]/;
@@ -41,16 +43,27 @@ module.exports = {
                 // determine if the line is empty, a stats header row, or player row
                 if (line !== '') {
                     var statsHeaderLine = (line.search(regExpBracesAndOne) && line.indexOf('NAME') > 0);
-                    if ((statsHeaderLine !== false) && (statsHeaderLineParsed === false)) {
+                    if ((statsHeaderLine !== false) && (battingStatsHeaderLineParsed === false)) {
                         // parse stats header line once
                         line = line.replace(regExpBracesAndOne, '');
-                        var headerLineColumnHeadings = line.split(/(\s+)/);
-                        _.forEach(headerLineColumnHeadings, function(columnHeading) {
+                        var battingHeaderLineColumnHeadings = line.split(/(\s+)/);
+                        _.forEach(battingHeaderLineColumnHeadings, function(columnHeading) {
                            if (columnHeading.trim() !== '') {
                                battingColumns.push(columnHeading);
                            }
                         });
-                        statsHeaderLineParsed = true;
+                        battingStatsHeaderLineParsed = true;
+                    }
+                    if ((statsHeaderLine !== false) && (pitchingStatsHeaderLineParsed === false)) {
+                        // parse stats header line once
+                        line = line.replace(regExpBracesAndOne, '');
+                        var pitchingHeaderLineColumnHeadings = line.split(/(\s+)/);
+                        _.forEach(pitchingHeaderLineColumnHeadings, function(columnHeading) {
+                            if (columnHeading.trim() !== '') {
+                                pitchingColumns.push(columnHeading);
+                            }
+                        });
+                        pitchingStatsHeaderLineParsed = true;
                     }
                     if (statsHeaderLine === false) {
                         // if the line is not [2]
