@@ -9,7 +9,7 @@ SOM data primarily exists within the game itself, or exported as a PRT file. Thi
 
 ## Installation
 
-TBD
+`npm install strat2json`
 
 ## Tests
 
