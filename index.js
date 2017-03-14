@@ -43,7 +43,7 @@ module.exports = {
                 // determine if the line is empty, a stats header row, or player row
                 if (line !== '') {
                     var statsHeaderLine = (line.search(regExpBracesAndOne) && line.indexOf('NAME') > 0);
-                    if ((statsHeaderLine !== false) && (battingStatsHeaderLineParsed === false)) {
+                    if ((statsHeaderLine !== false) && (battingStatsHeaderLineParsed === false) && (line.indexOf('BAVG') > 0)) {
                         // parse stats header line once
                         line = line.replace(regExpBracesAndOne, '');
                         var battingHeaderLineColumnHeadings = line.split(/(\s+)/);
@@ -54,7 +54,7 @@ module.exports = {
                         });
                         battingStatsHeaderLineParsed = true;
                     }
-                    if ((statsHeaderLine !== false) && (pitchingStatsHeaderLineParsed === false)) {
+                    if ((statsHeaderLine !== false) && (pitchingStatsHeaderLineParsed === false) && (line.indexOf('ERA') > 0)) {
                         // parse stats header line once
                         line = line.replace(regExpBracesAndOne, '');
                         var pitchingHeaderLineColumnHeadings = line.split(/(\s+)/);
@@ -64,6 +64,7 @@ module.exports = {
                             }
                         });
                         pitchingStatsHeaderLineParsed = true;
+                        console.log(pitchingColumns);
                     }
                     if (statsHeaderLine === false) {
                         // if the line is not [2]

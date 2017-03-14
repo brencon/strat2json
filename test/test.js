@@ -28,7 +28,7 @@ describe('#strat2json', function() {
         var tempIndex = 0;
         _.forEach(result.teams, function(team) {
             if (tempIndex === 0) {
-                console.log(team.batters);
+                //console.log(team.batters);
                 tempIndex++;
             }
             expect(team.batters).to.have.length.above(0);
