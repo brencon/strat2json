@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/brencon/strat2json.svg?branch=master)](https://travis-ci.org/brencon/strat2json)
+[![Coverage Status](https://coveralls.io/repos/github/brencon/strat2json/badge.svg?branch=master)](https://coveralls.io/github/brencon/strat2json?branch=master)
 
 # strat2json
 Converts a Strat-O-Matic (SOM) print (prt) file data to JSON.
