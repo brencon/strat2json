@@ -7,7 +7,7 @@ var strat2json = require('../index');
 
 const fs = require('fs');
 
-const testDataFileLocation = './test/data/primary-stats-all-teams.prt';
+const testDataFileLocation = 'test/data/primary-stats-all-teams.prt';
 
 var primaryStatsAllTeamsPRT;
 
