@@ -22,12 +22,14 @@ module.exports = {
         var pitchingStatsHeaderLineParsed = false;
         var pitchingColumns = [];
         var teamIndex = -1;
+        var statsMode = '';    // switch between batting and pitching stats mode
         const primaryPlayerStatistics = 'Primary Player Statistics For';
         const regExpBracesAndOne = /\[[1]\]/;
         const regExpBracesAndTwo = /\[[2]\]/;
         const regExpBracesAndFour = /\[[4]\]/;
         const regExpCapitalLetterThenPeriod = /[A-Z]\./;
-        _.forEach(lines, function(line) {
+        var statsHeaderLine = '';
+            _.forEach(lines, function(line) {
             // find each team based on "Primary Player Statistics"
             if (line.indexOf(primaryPlayerStatistics) > 0) {
                 teamLineFound = true;
@@ -42,8 +44,14 @@ module.exports = {
             if (teamLineFound === false) {
                 // determine if the line is empty, a stats header row, or player row
                 if (line !== '') {
-                    var statsHeaderLine = (line.search(regExpBracesAndOne) && line.indexOf('NAME') > 0);
-                    if ((statsHeaderLine !== false) && (battingStatsHeaderLineParsed === false) && (line.indexOf('BAVG') > 0)) {
+                    statsHeaderLine = (line.search(regExpBracesAndOne) && line.indexOf('NAME') > 0);
+                    if ((statsHeaderLine !== false) && (line.indexOf('BAVG') > 0)) {
+                        statsMode = 'B';
+                    }
+                    if ((statsHeaderLine !== false) && (line.indexOf('ERA') > 0)) {
+                        statsMode = 'P';
+                    }
+                    if ((statsMode === 'B') && (battingStatsHeaderLineParsed === false)) {
                         // parse stats header line once
                         line = line.replace(regExpBracesAndOne, '');
                         var battingHeaderLineColumnHeadings = line.split(/(\s+)/);
@@ -54,7 +62,7 @@ module.exports = {
                         });
                         battingStatsHeaderLineParsed = true;
                     }
-                    if ((statsHeaderLine !== false) && (pitchingStatsHeaderLineParsed === false) && (line.indexOf('ERA') > 0)) {
+                    if ((statsMode === 'P') && (pitchingStatsHeaderLineParsed === false)) {
                         // parse stats header line once
                         line = line.replace(regExpBracesAndOne, '');
                         var pitchingHeaderLineColumnHeadings = line.split(/(\s+)/);
@@ -64,7 +72,6 @@ module.exports = {
                             }
                         });
                         pitchingStatsHeaderLineParsed = true;
-                        console.log(pitchingColumns);
                     }
                     if (statsHeaderLine === false) {
                         // if the line is not [2]
