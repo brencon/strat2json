@@ -30,5 +30,17 @@ describe('#strat2json', function() {
             expect(team.batters).to.have.length.above(0);
             expect(team.pitchers).to.have.length.above(0);
         });
+    });
+    it('should return json with an error message about the file being empty', function() {
+        var result = strat2json.primaryStats2json();
+        expect(result).to.have.property('errors');
+        expect(result.errors).to.have.length.above(0);
+        var errorEmtpyMessageFound = false;
+        _.forEach(result.errors, function(error) {
+            if (error.message === 'The primary stats data is empty or undefined') {
+                errorEmtpyMessageFound = true;
+            }
+        });
+        expect(errorEmtpyMessageFound).to.equal(true);
     })
 });
