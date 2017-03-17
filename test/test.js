@@ -23,6 +23,8 @@ describe('#strat2json', function() {
     });
     it('should take the contents of a file and parse the data into JSON', function() {
         var result = strat2json.primaryStats2json(primaryStatsAllTeamsPRT);
+        expect(result).to.have.property('year');
+        expect(result.year).to.not.be.empty;
         expect(result).to.have.property('teams');
         expect(result.teams).to.have.length.above(0);
         var tempIndex = 0;

@@ -27,8 +27,9 @@ module.exports = {
         }
         else {
             var lines = primaryStatsPRT.split(/\r?\n/);
-            jsonStats = {"teams": []};
+            jsonStats = { "teams": [] };
             var teamLineFound = false;
+            var primaryStatsYearFound = false;
             var battingStatsHeaderLineParsed = false;
             var battingColumns = [];
             var pitchingStatsHeaderLineParsed = false;
@@ -46,6 +47,10 @@ module.exports = {
                 if (line.indexOf(primaryPlayerStatistics) > 0) {
                     teamLineFound = true;
                     var teamLine = line.substr(primaryPlayerStatistics.length + 9);
+                    if (primaryStatsYearFound === false) {
+                        jsonStats.year = line.substr(primaryPlayerStatistics.length + 4, 4);
+                        primaryStatsYearFound = true;
+                    }
                     var totalsAfterGames = ' Totals After';
                     var team = teamLine.substr(0, teamLine.indexOf(totalsAfterGames));
                     jsonStats.teams.push({"team": team});
