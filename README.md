@@ -2,6 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/brencon/strat2json/badge.svg?branch=master)](https://coveralls.io/github/brencon/strat2json?branch=master)
 [![Twitter Follow](https://img.shields.io/twitter/follow/symbrendan.svg?style=social&label=Follow)](https://twitter.com/symbrendan)
 [![GitHub followers](https://img.shields.io/github/followers/brencon.svg?style=social&label=Follow)](https://github.com/brencon)
+[![Gratipay User](https://img.shields.io/gratipay/user/brencon.svg)](https://gratipay.com/strat2json/)
 
 # strat2json
 Converts a Strat-O-Matic (SOM) print (prt) file data to JSON.
