@@ -3,6 +3,7 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/symbrendan.svg?style=social&label=Follow)](https://twitter.com/symbrendan)
 [![GitHub followers](https://img.shields.io/github/followers/brencon.svg?style=social&label=Follow)](https://github.com/brencon)
 [![Gratipay User](https://img.shields.io/gratipay/user/brencon.svg)](https://gratipay.com/strat2json/)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJTF67JZE4G3C)
 
 # strat2json
 Converts a Strat-O-Matic (SOM) print (prt) file data to JSON.
@@ -39,11 +40,7 @@ This module is not affiliated with, associated with, authorized by, endorsed by,
 
 To keep development of this module moving forward, please consider donating to the project.
 
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="QJTF67JZE4G3C">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
+[![Gratipay User](https://img.shields.io/gratipay/user/brencon.svg)](https://gratipay.com/strat2json/)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJTF67JZE4G3C)
 
 Watch and give the project a star on [Github](https://github.com/brencon/strat2json).
