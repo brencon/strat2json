@@ -44,5 +44,17 @@ describe('#strat2json', function() {
             }
         });
         expect(errorEmtpyMessageFound).to.equal(true);
-    })
+    });
+    it('should return an error about the file contents not matching', function() {
+        var result = strat2json.primaryStats2json(strat2json.readFromFile('test/data/test-contents-wrong-format.txt'));
+        expect(result).to.have.property('errors');
+        expect(result.errors).to.have.length.above(0);
+        var errorEmtpyMessageFound = false;
+        _.forEach(result.errors, function(error) {
+            if (error.message === 'File contents do not match expected Strat-O-Matic primary stats') {
+                errorEmtpyMessageFound = true;
+            }
+        });
+        expect(errorEmtpyMessageFound).to.equal(true);
+    });
 });

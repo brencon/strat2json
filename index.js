@@ -27,7 +27,7 @@ module.exports = {
         }
         else {
             var lines = primaryStatsPRT.split(/\r?\n/);
-            jsonStats = { "teams": [] };
+            jsonStats.teams = [];
             var teamLineFound = false;
             var primaryStatsYearFound = false;
             var battingStatsHeaderLineParsed = false;
@@ -128,6 +128,14 @@ module.exports = {
                 }
                 teamLineFound = false;
             });
+            // if no teams were found then the file contents are not primary stats
+            if (jsonStats.teams.length === 0) {
+                var error = {
+                    message: 'File contents do not match expected Strat-O-Matic primary stats'
+                }
+                jsonStats.errors.push(error);
+                delete jsonStats.teams;
+            }
         }
         return jsonStats;
     },
