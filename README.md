@@ -2,6 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/brencon/strat2json/badge.svg?branch=master)](https://coveralls.io/github/brencon/strat2json?branch=master)
 [![Twitter Follow](https://img.shields.io/twitter/follow/symbrendan.svg?style=social&label=Follow)](https://twitter.com/symbrendan)
 [![GitHub followers](https://img.shields.io/github/followers/brencon.svg?style=social&label=Follow)](https://github.com/brencon)
+[![npm](https://img.shields.io/npm/dt/strat2json.svg)](https://www.npmjs.com/package/strat2json)
 [![Gratipay User](https://img.shields.io/gratipay/user/brencon.svg)](https://gratipay.com/strat2json/)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJTF67JZE4G3C)
 
