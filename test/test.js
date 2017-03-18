@@ -7,12 +7,13 @@ var strat2json = require('../index');
 
 const fs = require('fs');
 
-const testDataFileLocation = 'test/data/primary-stats-all-teams.prt';
+const testDataPrimaryStats = 'test/data/primary-stats-all-teams.prt';
+const testDataWithSuffix = 'test/data/primary-stats-with-suffix.prt';
 
 var primaryStatsAllTeamsPRT;
 
 beforeEach(function(done) {
-    primaryStatsAllTeamsPRT = strat2json.readFromFile(testDataFileLocation);
+    primaryStatsAllTeamsPRT = strat2json.readFromFile(testDataPrimaryStats);
     done();
 });
 
@@ -57,4 +58,17 @@ describe('#strat2json', function() {
         });
         expect(errorEmtpyMessageFound).to.equal(true);
     });
+    it('should parse player names with a suffix or additional spaces correctly', function() {
+        var primaryStatsWithSuffixPRT = strat2json.readFromFile(testDataWithSuffix);
+        var result = strat2json.primaryStats2json(primaryStatsWithSuffixPRT);
+        var tempIndex = 0;
+        _.forEach(result.teams, function(team) {
+            expect(team.batters).to.have.length.above(0);
+            // assume data file has only J.Bradley Jr
+            expect(team.batters[0].NAME.split(" ").length).to.be.greaterThan(1);
+            expect(team.pitchers).to.have.length.above(0);
+            // assume data file has only J.De La Rosa
+            expect(team.pitchers[0].NAME.split(" ").length).to.be.greaterThan(2);
+        });
+    });;
 });

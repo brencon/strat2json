@@ -95,11 +95,17 @@ module.exports = {
                             if (line.search(regExpBracesAndTwo) === -1) {
                                 // then it's a stats line
                                 if (line.search(regExpCapitalLetterThenPeriod) === 0) {
+                                    // split on [4]
+                                    //  left side is player name, right side are stats
+                                    var playerLine = line.split(regExpBracesAndFour);
                                     // then the line contains a capital letter and a period
-                                    var statsColumns = line.split(/(\s+)/);
+                                    var statsColumns = playerLine[1].split(/(\s+)/);
                                     if (statsMode === 'B') {
                                         var battingStats = {};
                                         var battingStatsIndex = 0;
+                                        // set first index value to the player name
+                                        battingStats[battingColumns[battingStatsIndex]] = playerLine[0];
+                                        battingStatsIndex++;
                                         _.forEach(statsColumns, function (statColumn) {
                                             if (statColumn.trim() !== '') {
                                                 statColumn = statColumn.replace(regExpBracesAndFour, '');
@@ -112,6 +118,9 @@ module.exports = {
                                     if (statsMode === 'P') {
                                         var pitchingStats = {};
                                         var pitchingStatsIndex = 0;
+                                        // set first index value to the player name
+                                        pitchingStats[pitchingColumns[pitchingStatsIndex]] = playerLine[0];
+                                        pitchingStatsIndex++;
                                         _.forEach(statsColumns, function (statColumn) {
                                             if (statColumn.trim() !== '') {
                                                 statColumn = statColumn.replace(regExpBracesAndFour, '');
