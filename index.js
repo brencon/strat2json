@@ -148,6 +148,12 @@ module.exports = {
         }
         return jsonStats;
     },
+    leagueStandings2json: function(leagueStandingsPRT) {
+        var jsonStandings = {
+            errors: []
+        };
+        return jsonStandings;
+    },
     readFromFile: function(fileLocation) {
         return fs.readFileSync(fileLocation, 'utf8');
     }
