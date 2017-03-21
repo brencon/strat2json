@@ -6,15 +6,19 @@ var intake = new Intake();
 
 const fs = require('fs');
 
-/**
- * primaryStats2json
- * Expects data to be sent that is read from a Strat-O-Matic
- * print file generated from the team primary stats interface
- * @param primaryStatsPRT {string}
- * @return {string}
- */
+const regExpBracesAndOne = /\[[1]\]/;
+const regExpBracesAndTwo = /\[[2]\]/;
+const regExpBracesAndFour = /\[[4]\]/;
+const regExpCapitalLetterThenPeriod = /[A-Z]\./;
 
 module.exports = {
+    /**
+        * primaryStats2json
+        * Expects data to be sent that is read from a Strat-O-Matic
+        * print file generated from the team primary stats interface
+        * @param primaryStatsPRT {string}
+        * @return {string}
+    */
     primaryStats2json: function(primaryStatsPRT) {
         var jsonStats = {
             errors: []
@@ -37,10 +41,6 @@ module.exports = {
             var teamIndex = -1;
             var statsMode = '';    // switch between batting and pitching stats mode
             const primaryPlayerStatistics = 'Primary Player Statistics For';
-            const regExpBracesAndOne = /\[[1]\]/;
-            const regExpBracesAndTwo = /\[[2]\]/;
-            const regExpBracesAndFour = /\[[4]\]/;
-            const regExpCapitalLetterThenPeriod = /[A-Z]\./;
             var statsHeaderLine = '';
             _.forEach(lines, function (line) {
                 // find each team based on "Primary Player Statistics"
@@ -148,7 +148,15 @@ module.exports = {
         }
         return jsonStats;
     },
+    /**
+     * leagueStandings2json
+     * Expects data to be sent that is read from a Strat-O-Matic
+     * print file generated from the league standings interface
+     * @param leagueStandingsPRT {string}
+     * @return {string}
+     */
     leagueStandings2json: function(leagueStandingsPRT) {
+        var leagueStandingsYearFound = false;
         var jsonStandings = {
             errors: []
         };
@@ -160,7 +168,17 @@ module.exports = {
         }
         else {
             var lines = leagueStandingsPRT.split(/\r?\n/);
+            const leagueStandingsFor = 'LEAGUE STANDINGS FOR';
+            _.forEach(lines, function (line) {
+                // find each team based on "Primary Player Statistics"
+                if (line.indexOf(leagueStandingsFor) > 0) {
+                    console.log(line);
+                    leagueStandingsYearFound = true;
+                    jsonStandings.year = line.substr(leagueStandingsFor.length + 4, 4);
+                }
+            });
         }
+        console.log(jsonStandings);
         return jsonStandings;
     },
     readFromFile: function(fileLocation) {
