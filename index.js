@@ -152,6 +152,15 @@ module.exports = {
         var jsonStandings = {
             errors: []
         };
+        if (intake.isEmptyOrUndefined(leagueStandingsPRT)) {
+            var error = {
+                message: 'The league standings data is empty or undefined'
+            }
+            jsonStandings.errors.push(error);
+        }
+        else {
+            var lines = leagueStandingsPRT.split(/\r?\n/);
+        }
         return jsonStandings;
     },
     readFromFile: function(fileLocation) {

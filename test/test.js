@@ -24,8 +24,35 @@ describe('#strat2json', function() {
         });
 
         describe('leagueStandings2json - tests', function () {
-            it('should be true', function() {
-               expect(true).to.be.true;
+            it('should be able to read from a league standings file location and not be null or empty', function() {
+                expect(leagueStandingsPRT).to.not.be.null;
+                expect(leagueStandingsPRT).to.not.be.empty;
+            });
+            it('should take the contents of a file and parse the data into JSON', function() {
+                var result = strat2json.leagueStandings2json(leagueStandingsPRT);
+                /*
+                expect(result).to.have.property('year');
+                expect(result.year).to.not.be.empty;
+                expect(result).to.have.property('teams');
+                expect(result.teams).to.have.length.above(0);
+                var tempIndex = 0;
+                _.forEach(result.teams, function(team) {
+                    expect(team.batters).to.have.length.above(0);
+                    expect(team.pitchers).to.have.length.above(0);
+                });
+               */
+            });
+            it('should return json with an error message about the file being empty', function() {
+                var result = strat2json.leagueStandings2json();
+                expect(result).to.have.property('errors');
+                expect(result.errors).to.have.length.above(0);
+                var errorEmtpyMessageFound = false;
+                _.forEach(result.errors, function(error) {
+                    if (error.message === 'The league standings data is empty or undefined') {
+                        errorEmtpyMessageFound = true;
+                    }
+                });
+                expect(errorEmtpyMessageFound).to.equal(true);
             });
         });
     });
@@ -38,7 +65,7 @@ describe('#strat2json', function() {
         });
 
         describe('primaryStats2json - tests', function() {
-            it('should be able to read from a file location and not be null or empty', function() {
+            it('should be able to read from a primary stats file location and not be null or empty', function() {
                 expect(primaryStatsAllTeamsPRT).to.not.be.null;
                 expect(primaryStatsAllTeamsPRT).to.not.be.empty;
             });
