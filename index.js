@@ -61,7 +61,7 @@ module.exports = {
                 if (teamLineFound === false) {
                     // determine if the line is empty, a stats header row, or player row
                     if (line !== '') {
-                        statsHeaderLine = (line.search(regExpBracesAndOne) && line.indexOf('NAME') > 0);
+                        statsHeaderLine = ((line.search(regExpBracesAndOne) === 0) && line.indexOf('NAME') > 0);
                         if ((statsHeaderLine !== false) && (line.indexOf('BAVG') > 0)) {
                             statsMode = 'B';
                         }
@@ -169,16 +169,25 @@ module.exports = {
         else {
             var lines = leagueStandingsPRT.split(/\r?\n/);
             const leagueStandingsFor = 'LEAGUE STANDINGS FOR';
+            var standingsHeaderLine = '';
             _.forEach(lines, function (line) {
                 // find each team based on "Primary Player Statistics"
                 if (line.indexOf(leagueStandingsFor) > 0) {
-                    console.log(line);
                     leagueStandingsYearFound = true;
                     jsonStandings.year = line.substr(leagueStandingsFor.length + 4, 4);
                 }
+                if (leagueStandingsYearFound === true) {
+                    // determine if the line is empty, a stats header row, or player row
+                    if (line !== '') {
+                        standingsHeaderLine = ((line.search(regExpBracesAndOne) === 0) && (line.indexOf('WON') > 0) && (line.indexOf('LOST') > 0) && (line.indexOf('PCT') > 0) && (line.indexOf('GB') > 0) && (line.indexOf('MAGIC#') > 0) && (line.indexOf('Standings') === -1));
+                        if (standingsHeaderLine !== false) {
+                            // this line is the conference abbreviation, division, and standings header columns
+                        }
+                    }
+                }
             });
         }
-        console.log(jsonStandings);
+        //console.log(jsonStandings);
         return jsonStandings;
     },
     readFromFile: function(fileLocation) {
