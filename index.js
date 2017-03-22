@@ -167,6 +167,7 @@ module.exports = {
             jsonStandings.errors.push(error);
         }
         else {
+            jsonStandings.conferences = [];
             var lines = leagueStandingsPRT.split(/\r?\n/);
             const leagueStandingsFor = 'LEAGUE STANDINGS FOR';
             var standingsHeaderLine = '';
@@ -182,12 +183,24 @@ module.exports = {
                         standingsHeaderLine = ((line.search(regExpBracesAndOne) === 0) && (line.indexOf('WON') > 0) && (line.indexOf('LOST') > 0) && (line.indexOf('PCT') > 0) && (line.indexOf('GB') > 0) && (line.indexOf('MAGIC#') > 0) && (line.indexOf('Standings') === -1));
                         if (standingsHeaderLine !== false) {
                             // this line is the conference abbreviation, division, and standings header columns
+                            console.log(line);
+                            var standingsColumns = line.split(/(\s+)/);
+                            var lineConference = standingsColumns[0].replace(regExpBracesAndOne, '').trim();
+                            var conferenceFound = _.findIndex(jsonStandings.conferences, function(conference) {
+                                return conference === lineConference;
+                            });
+                            if (conferenceFound < 0) {
+                                jsonStandings.conferences.push(lineConference);
+                            }
+                        }
+                        else {
+                            //console.log(line);
                         }
                     }
                 }
             });
         }
-        //console.log(jsonStandings);
+        console.log(jsonStandings);
         return jsonStandings;
     },
     readFromFile: function(fileLocation) {
