@@ -170,9 +170,13 @@ module.exports = {
             jsonStandings.conferences = [];
             var lines = leagueStandingsPRT.split(/\r?\n/);
             const leagueStandingsFor = 'LEAGUE STANDINGS FOR';
+            var leagueStandingsForLine = '';
             var standingsHeaderLine = '';
+            var overallRecordLine = '';
+            var overallRecordLineFound = false;
+            var wildCardLine = '';
+            var wildCardLineFound = false;
             _.forEach(lines, function (line) {
-                // find each team based on "Primary Player Statistics"
                 if (line.indexOf(leagueStandingsFor) > 0) {
                     leagueStandingsYearFound = true;
                     jsonStandings.year = line.substr(leagueStandingsFor.length + 4, 4);
@@ -215,13 +219,27 @@ module.exports = {
                             }
                         }
                         else {
-                            //console.log(line);
+                            leagueStandingsForLine = ((line.search(regExpBracesAndOne) === 0) && (line.indexOf(leagueStandingsFor) > 0));
+                            // ignore "wild card" standings
+                            wildCardLine = ((line.search(regExpBracesAndOne) === 0) && (line.indexOf('Wild Card Standings') > 0));
+                            if (wildCardLine === true) {
+                                wildCardLineFound = true;
+                            }
+                            // check to see if the line contains OVERALL RECORD
+                            overallRecordLine = ((line.search(regExpBracesAndOne) === 0) && (line.indexOf('OVERALL RECORD') > 0));
+                            if (overallRecordLine === true) {
+                                overallRecordLineFound = true;
+                            }
+                            if ((leagueStandingsForLine === false) && (leagueStandingsForLineFound === false) && (overallRecordLineFound === false) && (wildCardLineFound === false)) {
+                                // this will be the team and their record
+                                console.log(line);
+                            }
                         }
                     }
                 }
             });
         }
-        //console.log(jsonStandings);
+        console.log(jsonStandings);
         return jsonStandings;
     },
     readFromFile: function(fileLocation) {
