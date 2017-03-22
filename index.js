@@ -183,14 +183,35 @@ module.exports = {
                         standingsHeaderLine = ((line.search(regExpBracesAndOne) === 0) && (line.indexOf('WON') > 0) && (line.indexOf('LOST') > 0) && (line.indexOf('PCT') > 0) && (line.indexOf('GB') > 0) && (line.indexOf('MAGIC#') > 0) && (line.indexOf('Standings') === -1));
                         if (standingsHeaderLine !== false) {
                             // this line is the conference abbreviation, division, and standings header columns
-                            console.log(line);
+                            //console.log(line);
                             var standingsColumns = line.split(/(\s+)/);
+                            // parse conferences
                             var lineConference = standingsColumns[0].replace(regExpBracesAndOne, '').trim();
-                            var conferenceFound = _.findIndex(jsonStandings.conferences, function(conference) {
-                                return conference === lineConference;
+                            var conferenceFound = _.findIndex(jsonStandings.conferences, function(c) {
+                                return c.conference === lineConference;
                             });
                             if (conferenceFound < 0) {
-                                jsonStandings.conferences.push(lineConference);
+                                var conferenceObj = {
+                                    conference: lineConference,
+                                    divisions: []
+                                };
+                                jsonStandings.conferences.push(conferenceObj);
+                            }
+                            // parse divisions
+                            var lineDivision = standingsColumns[2];
+                            // find the index of the conference
+                            conferenceFound = _.findIndex(jsonStandings.conferences, function(c) {
+                                return c.conference === lineConference;
+                            });
+                            var divisionFound = _.findIndex(jsonStandings.conferences[conferenceFound].divisions, function(d) {
+                                return d.division === lineDivision;
+                            });
+                            if (divisionFound < 0) {
+                                var divisionObj = {
+                                    division: lineDivision,
+                                    teams: []
+                                };
+                                jsonStandings.conferences[conferenceFound].divisions.push(divisionObj);
                             }
                         }
                         else {
@@ -200,7 +221,7 @@ module.exports = {
                 }
             });
         }
-        console.log(jsonStandings);
+        //console.log(jsonStandings);
         return jsonStandings;
     },
     readFromFile: function(fileLocation) {

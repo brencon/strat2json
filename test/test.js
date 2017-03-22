@@ -30,17 +30,21 @@ describe('#strat2json', function() {
             });
             it('should take the contents of a file and parse the data into JSON', function() {
                 var result = strat2json.leagueStandings2json(leagueStandingsPRT);
-                /*
+                // expect empty errors array
+                expect(result).to.have.property('errors');
+                expect(result.errors).to.have.length(0);
                 expect(result).to.have.property('year');
-                expect(result.year).to.not.be.empty;
-                expect(result).to.have.property('teams');
-                expect(result.teams).to.have.length.above(0);
-                var tempIndex = 0;
-                _.forEach(result.teams, function(team) {
-                    expect(team.batters).to.have.length.above(0);
-                    expect(team.pitchers).to.have.length.above(0);
+                expect(result).to.have.property('conferences');
+                expect(result.conferences).to.have.length.above(0);
+                _.forEach(result.conferences, function(conference) {
+                    expect(conference).to.have.property('divisions');
+                    expect(conference).to.have.property('conference');
+                    expect(conference.divisions).to.have.length.above(0);
+                    _.forEach(conference.divisions, function(division) {
+                        expect(division).to.have.property('division');
+                        expect(division).to.have.property('teams');
+                   });
                 });
-               */
             });
             it('should return json with an error message about the file being empty', function() {
                 var result = strat2json.leagueStandings2json();
@@ -71,6 +75,9 @@ describe('#strat2json', function() {
             });
             it('should take the contents of a file and parse the data into JSON', function() {
                 var result = strat2json.primaryStats2json(primaryStatsAllTeamsPRT);
+                // expect empty errors array
+                expect(result).to.have.property('errors');
+                expect(result.errors).to.have.length(0);
                 expect(result).to.have.property('year');
                 expect(result.year).to.not.be.empty;
                 expect(result).to.have.property('teams');
