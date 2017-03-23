@@ -230,16 +230,16 @@ module.exports = {
                             if (overallRecordLine === true) {
                                 overallRecordLineFound = true;
                             }
-                            if ((leagueStandingsForLine === false) && (leagueStandingsForLineFound === false) && (overallRecordLineFound === false) && (wildCardLineFound === false)) {
+                            if ((leagueStandingsForLine === false) && (overallRecordLineFound === false) && (wildCardLineFound === false)) {
                                 // this will be the team and their record
-                                console.log(line);
+                                //console.log(line);
                             }
                         }
                     }
                 }
             });
         }
-        console.log(jsonStandings);
+        //console.log(jsonStandings);
         return jsonStandings;
     },
     readFromFile: function(fileLocation) {
