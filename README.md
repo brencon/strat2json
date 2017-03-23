@@ -9,8 +9,6 @@
 # strat2json
 Converts a Strat-O-Matic (SOM) print (prt) file data to JSON.
 
-Pass the contents of a SOM primary stats file to `primaryStats2json`, and it will return the data parsed into a JSON object for each team with the batters and pitchers separated into different arrays.
-
 ## Motivation
 
 SOM data primarily exists within the game itself, or exported as a PRT file. This module modernizes SOM data as JSON.
@@ -18,6 +16,16 @@ SOM data primarily exists within the game itself, or exported as a PRT file. Thi
 ## Installation
 
 `npm install strat2json`
+
+## Usage
+
+### leagueStandings2json
+
+Pass the contents of a SOM league standings file to `leagueStandings2json`, and it will return the data parsed into a JSON object for each conference, division, and team.
+
+### primaryStats2json
+
+Pass the contents of a SOM primary stats file to `primaryStats2json`, and it will return the data parsed into a JSON object for each team with the batters and pitchers separated into different arrays.
 
 ## Tests
 
