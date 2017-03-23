@@ -176,6 +176,10 @@ module.exports = {
             var overallRecordLineFound = false;
             var wildCardLine = '';
             var wildCardLineFound = false;
+            var conferenceFound = -1;
+            var divisionFound = -1;
+            var currentConference = 0;
+            var currentDivision = 0;
             _.forEach(lines, function (line) {
                 if (line.indexOf(leagueStandingsFor) > 0) {
                     leagueStandingsYearFound = true;
@@ -191,7 +195,7 @@ module.exports = {
                             var standingsColumns = line.split(/(\s+)/);
                             // parse conferences
                             var lineConference = standingsColumns[0].replace(regExpBracesAndOne, '').trim();
-                            var conferenceFound = _.findIndex(jsonStandings.conferences, function(c) {
+                            conferenceFound = _.findIndex(jsonStandings.conferences, function(c) {
                                 return c.conference === lineConference;
                             });
                             if (conferenceFound < 0) {
@@ -204,10 +208,11 @@ module.exports = {
                             // parse divisions
                             var lineDivision = standingsColumns[2];
                             // find the index of the conference
-                            conferenceFound = _.findIndex(jsonStandings.conferences, function(c) {
+                            currentConference = _.findIndex(jsonStandings.conferences, function(c) {
                                 return c.conference === lineConference;
                             });
-                            var divisionFound = _.findIndex(jsonStandings.conferences[conferenceFound].divisions, function(d) {
+                            // find the index of the division
+                            divisionFound = _.findIndex(jsonStandings.conferences[currentConference].divisions, function(d) {
                                 return d.division === lineDivision;
                             });
                             if (divisionFound < 0) {
@@ -215,8 +220,12 @@ module.exports = {
                                     division: lineDivision,
                                     teams: []
                                 };
-                                jsonStandings.conferences[conferenceFound].divisions.push(divisionObj);
+                                jsonStandings.conferences[currentConference].divisions.push(divisionObj);
                             }
+                            // find the index of the division
+                            currentDivision = _.findIndex(jsonStandings.conferences[currentConference].divisions, function(d) {
+                                return d.division === lineDivision;
+                            });
                         }
                         else {
                             leagueStandingsForLine = ((line.search(regExpBracesAndOne) === 0) && (line.indexOf(leagueStandingsFor) > 0));
@@ -233,13 +242,28 @@ module.exports = {
                             if ((leagueStandingsForLine === false) && (overallRecordLineFound === false) && (wildCardLineFound === false)) {
                                 // this will be the team and their record
                                 //console.log(line);
+                                var teamLineArray = line.split(regExpBracesAndFour);
+                                var teamNameArray = teamLineArray[0].split(/(\s+)/);
+                                var team = {
+                                    teamCity: '',
+                                    teamAbbreviation: ''
+                                };
+                                for (var i = 2; i < teamNameArray.length - 2; i++) {
+                                    team.teamCity = team.teamCity += teamNameArray[i];
+                                }
+                                team.teamAbbreviation = teamNameArray[teamNameArray.length - 1];
+                                var teamRecordArray = teamLineArray[1].split(/(\s+)/);
+                                team.W = teamRecordArray[2];
+                                team.L = teamRecordArray[4];
+                                team.PCT = teamRecordArray[6];
+                                team.GB = teamRecordArray[8];
+                                jsonStandings.conferences[currentConference].divisions[currentDivision].teams.push(team);
                             }
                         }
                     }
                 }
             });
         }
-        //console.log(jsonStandings);
         return jsonStandings;
     },
     readFromFile: function(fileLocation) {
