@@ -1,3 +1,5 @@
+/* jshint node: true */
+/* jshint esversion: 6 */
 'use strict';
 
 var _ = require('lodash');
@@ -20,13 +22,14 @@ module.exports = {
         * @return {string}
     */
     primaryStats2json: function(primaryStatsPRT) {
+        var error = {};
         var jsonStats = {
             errors: []
         };
         if (intake.isEmptyOrUndefined(primaryStatsPRT)) {
-            var error = {
+            error = {
                 message: 'The primary stats data is empty or undefined'
-            }
+            };
             jsonStats.errors.push(error);
         }
         else {
@@ -139,9 +142,9 @@ module.exports = {
             });
             // if no teams were found then the file contents are not primary stats
             if (jsonStats.teams.length === 0) {
-                var error = {
+                error = {
                     message: 'File contents do not match expected Strat-O-Matic primary stats'
-                }
+                };
                 jsonStats.errors.push(error);
                 delete jsonStats.teams;
             }
@@ -156,14 +159,15 @@ module.exports = {
      * @return {string}
      */
     leagueStandings2json: function(leagueStandingsPRT) {
+        var error = {};
         var leagueStandingsYearFound = false;
         var jsonStandings = {
             errors: []
         };
         if (intake.isEmptyOrUndefined(leagueStandingsPRT)) {
-            var error = {
+            error = {
                 message: 'The league standings data is empty or undefined'
-            }
+            };
             jsonStandings.errors.push(error);
         }
         else {
